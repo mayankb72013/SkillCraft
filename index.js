@@ -18,14 +18,18 @@ app.post("/signup",function (req,res){
 app.post("/signin",function (req,res){
 
 })
-app.post("/courses",function (req,res){
 
+function userAuth(req,res,next){
+    
+}
+app.post("/courses",userAuth,function (req,res){
+    
 })
-app.post("/purchaseCourse",function (req,res){
-
+app.post("/purchaseCourse",userAuth,function (req,res){
+    
 })
-app.post("/usersCourses",function (req,res){
-
+app.post("/usersCourses",userAuth,function (req,res){
+    
 })
 
 //Admin side
@@ -33,15 +37,20 @@ app.post("/adminSignup",function(req,res){
     
 })
 app.post("/adminSignin",function(req,res){
+    
+})
+
+function adminAuth(){
+
+}
+
+app.post("/createCourse",adminAuth,function(req,res){
 
 })
-app.post("/createCourse",function(req,res){
+app.post("/addCourseContent",adminAuth,function(req,res){
 
 })
-app.post("/addCourseContent",function(req,res){
-
-})
-app.delete("/deleteCourse",function (req,res){
+app.delete("/deleteCourse",adminAuth,function (req,res){
 
 })
 app.listen(3000);
