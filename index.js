@@ -23,5 +23,20 @@ app.post("/usersCourses",function (req,res){
 
 })
 
+//Admin side
+app.post("/adminSignup",function(req,res){
+    
+})
+app.post("/adminSignin",function(req,res){
 
+})
+app.post("/createCourse",function(req,res){
+
+})
+app.post("/addCourseContent",function(req,res){
+
+})
+app.delete("/deleteCourse",function (req,res){
+    
+})
 app.listen(3000);
