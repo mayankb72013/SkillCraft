@@ -9,23 +9,10 @@ const JWT_SECRET = "sodinrlwnmamipsOSDNFSLENFOSD1 23102934832095@#$%^&*&^";
 
 const { userRouter } = require('./routes/user');
 const { courseRouter } = require('./routes/course');
+const { adminRouter } = require('./routes/admin');
 
-// User-side
-
-app.user("/user",userRouter);
-app.user("/course",courseRouter);
-
-app.get("/",function (req,res){
-
-})
-
-
-
-function userAuth(req,res,next){
-    
-}
-
-
-
+app.use("/user",userRouter);
+app.use("/course",courseRouter);
+app.use("/admin",adminRouter);
 
 app.listen(3000);
