@@ -3,17 +3,26 @@ const Schema = mongoose.Schema;
 const objectId = Schema.ObjectId;
 
 const UserSchema = new Schema({
-
+     email : {type : String,unique : true},
+     username : {type : String,unique : true},
+     password : String
 })
 const CourseSchema = new Schema({
-
+    title : {type : String,unique : true},
+    description : String,
+    price : Number,
+    imageUrl: String,
+    creatorId : objectId
 })
 
 const AdminSchema = new Schema({
-
+    email : {type : String,unique : true},
+    username : {type : String,unique : true},
+    password : String
 })
 const PurchaseSchema = new Schema({
-
+    course : [],
+    userId : objectId
 })
 
 const UserModel = mongoose.model('users',UserSchema);
