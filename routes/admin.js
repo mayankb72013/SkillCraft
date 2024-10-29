@@ -92,28 +92,17 @@ adminRouter.post("/signin",async function(req,res){
         })
     }
 })
-function auth(req,res,next){
-    const token = req.headers.token;
 
-    const UserId = jwt.verify(token,process.env.JWT_SECRET_ADMIN);
-    if(UserId){
-        next();
-    }
-    else{
-        res.json({
-            msg : "Invalid Token"
-        })
-    }
-}
+const { adminAuth } = require('../middlewares/admin');
 
 
-adminRouter.post("/course/create",auth,function (req,res){
+adminRouter.post("/course/create",adminAuth,function (req,res){
 
 })
-adminRouter.put("/course/edit",auth,function (req,res){
+adminRouter.put("/course/edit",adminAuth,function (req,res){
 
 })
-adminRouter.delete("/course/delete",auth,function (req,res){
+adminRouter.delete("/course/delete",adminAuth,function (req,res){
 
 })
 

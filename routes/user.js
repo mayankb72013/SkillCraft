@@ -91,19 +91,9 @@ userRouter.post("/signin",async function (req,res){
         })
     }
 })
-function userAuth(req,res,next){
-    const token = req.headers.token;
 
-    const UserId = jwt.verify(token,process.env.JWT_SECRET_USER);
-    if(UserId){
-        next();
-    }
-    else{
-        res.json({
-            msg : "Invalid Token"
-        })
-    }
-}
+const { userAuth } = require('../middlewares/user');
+
 userRouter.post("/courses",userAuth,function (req,res){
     
 })
