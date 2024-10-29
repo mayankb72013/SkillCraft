@@ -92,12 +92,8 @@ userRouter.post("/signin",async function (req,res){
     }
 })
 
-const { userAuth } = require('../middlewares/user');
-
-userRouter.post("/courses",userAuth,function (req,res){
-    
-})
-
+const { courseRouter } = require('./course');
+userRouter.use("/course",courseRouter);
 module.exports = {
     userRouter : userRouter
 }

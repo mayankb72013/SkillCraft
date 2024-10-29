@@ -1,35 +1,69 @@
 const express = require('express');
 const router = express.Router;
 const courseRouter = router();
-const { Course } = require('../db');
+const { Purchase, Course } = require('../db');
 
 const { z } = require('zod');
-
-courseRouter.get("/viewAll", function (req, res) {
-    
+courseRouter.use(express.json());
+courseRouter.get("/(viewAll)?", async function (req, res) {
+    const courses = await Course.find();
+    if (courses.length < 1) {
+        res.json({
+            msg: "No courses available"
+        })
+    }
+    else {
+        res.json({
+            courses: courses
+        })
+    }
 })
 const { userAuth } = require('../middlewares/user');
-courseRouter.post("/purchase", userAuth, function (req, res) {
-
+courseRouter.post("/purchase", userAuth, async function (req, res) {
+    const userId = req.UserId;
+    const courseId = req.body.courseId;
+    
+      await Course.findOne({
+        _id: courseId
+    })
+    
+    const purchasedAlready = await Purchase.findOne({
+        course: courseId,
+        userId: userId
+    })
+    if(purchasedAlready){
+        res.json({
+            msg : "You've already purchased this course"
+        })
+    }
+    else {
+        await Purchase.create({
+            course: courseId,
+            userId: userId
+        })
+        res.json({
+            msg: "course purchased successfully"
+        })
+    }
 })
 
 const { adminAuth } = require('../middlewares/admin');
-courseRouter.get("/viewCourses",adminAuth,async function (req,res){
-   const creatorId = req.creatorId;
-   
-   const courses = await Course.find({
-       creatorId: creatorId
-   })
-   if(courses.length < 1){
-      res.json({
-        msg : "No courses have been created by you"
-      })
-   }
-   else{
-      res.json({
-        courses : courses
-      })
-   }
+courseRouter.get("/viewCourses", adminAuth, async function (req, res) {
+    const creatorId = req.creatorId;
+
+    const courses = await Course.find({
+        creatorId: creatorId
+    })
+    if (courses.length < 1) {
+        res.json({
+            msg: "No courses have been created by you"
+        })
+    }
+    else {
+        res.json({
+            courses: courses
+        })
+    }
 })
 courseRouter.post("/create", adminAuth, async function (req, res) {
     const creatorId = req.creatorId;
@@ -103,7 +137,7 @@ courseRouter.put("/edit", adminAuth, async function (req, res) {
         await Course.updateOne({
             _id: courseId,
             creatorId: creatorId
-        },{
+        }, {
             title: title,
             description: description,
             price: price,
@@ -160,11 +194,11 @@ courseRouter.delete("/delete", adminAuth, async function (req, res) {
     catch (e) {
         console.log(e);
         errorThrown = true;
-        
+
     }
-    if(errorThrown){
+    if (errorThrown) {
         res.status(502).json({
-            error : "Database is down"
+            error: "Database is down"
         })
     }
     if (!course) {
@@ -172,7 +206,7 @@ courseRouter.delete("/delete", adminAuth, async function (req, res) {
             error: "No such course exists"
         })
     }
-    else{
+    else {
         await Course.deleteOne(course);
         res.json({
             msg: "Course has been Deleted"

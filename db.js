@@ -21,7 +21,7 @@ const AdminSchema = new Schema({
     password : String
 })
 const PurchaseSchema = new Schema({
-    course : [],
+    course : objectId,
     userId : objectId
 })
 
