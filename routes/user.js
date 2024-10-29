@@ -66,6 +66,11 @@ userRouter.post("/signin",async function (req,res){
     user = await User.findOne({
         username : username
     })
+    if (!user) {  // Check if the user is null
+        return res.status(404).json({
+            error: "User not found"
+        });
+    }
     }
     catch (e){
         res.json({

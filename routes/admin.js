@@ -62,11 +62,16 @@ adminRouter.post("/signin",async function(req,res){
         return ;
     }
 
-    let User = null;
+    let user = null;
     try{
-    User = await Admin.findOne({
+    user = await Admin.findOne({
         username : username
     })
+    if (!user) { 
+        return res.status(404).json({
+            error: "User not found"
+        });
+    }
     }
     catch (e){
         res.json({
@@ -74,9 +79,9 @@ adminRouter.post("/signin",async function(req,res){
         })
     }
 
-    const check = await bcrypt.compare(password, User.password);
+    const check = await bcrypt.compare(password, user.password);
     if(check){
-        const token = jwt.sign(User._id.toString(),process.env.JWT_SECRET.toString());
+        const token = jwt.sign(user._id.toString(),process.env.JWT_SECRET.toString());
         res.json({
             token : token
         })
