@@ -81,7 +81,7 @@ adminRouter.post("/signin",async function(req,res){
 
     const check = await bcrypt.compare(password, user.password);
     if(check){
-        const token = jwt.sign(user._id.toString(),process.env.JWT_SECRET.toString());
+        const token = jwt.sign(user._id.toString(),process.env.JWT_SECRET_ADMIN.toString());
         res.json({
             token : token
         })
@@ -95,7 +95,7 @@ adminRouter.post("/signin",async function(req,res){
 function auth(req,res,next){
     const token = req.headers.token;
 
-    const UserId = jwt.verify(token,process.env.JWT_SECRET);
+    const UserId = jwt.verify(token,process.env.JWT_SECRET_ADMIN);
     if(UserId){
         next();
     }
