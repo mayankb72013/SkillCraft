@@ -7,6 +7,7 @@ function userAuth(req,res,next){
 
     const UserId = jwt.verify(token,process.env.JWT_SECRET_USER);
     if(UserId){
+        req.UserId = UserId;
         next();
     }
     else{

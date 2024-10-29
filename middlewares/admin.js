@@ -5,8 +5,9 @@ dotenv.config();
 function adminAuth(req,res,next){
     const token = req.headers.token;
 
-    const UserId = jwt.verify(token,process.env.JWT_SECRET_ADMIN);
-    if(UserId){
+    const AdminId = jwt.verify(token,process.env.JWT_SECRET_ADMIN);
+    if(AdminId){
+        req.creatorId = AdminId;
         next();
     }
     else{

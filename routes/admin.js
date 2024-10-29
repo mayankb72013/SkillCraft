@@ -62,12 +62,12 @@ adminRouter.post("/signin",async function(req,res){
         return ;
     }
 
-    let user = null;
+    let admin = null;
     try{
-    user = await Admin.findOne({
+    admin = await Admin.findOne({
         username : username
     })
-    if (!user) { 
+    if (!admin) { 
         return res.status(404).json({
             error: "User not found"
         });
@@ -79,9 +79,9 @@ adminRouter.post("/signin",async function(req,res){
         })
     }
 
-    const check = await bcrypt.compare(password, user.password);
+    const check = await bcrypt.compare(password, admin.password);
     if(check){
-        const token = jwt.sign(user._id.toString(),process.env.JWT_SECRET_ADMIN.toString());
+        const token = jwt.sign(admin._id.toString(),process.env.JWT_SECRET_ADMIN.toString());
         res.json({
             token : token
         })
@@ -93,18 +93,8 @@ adminRouter.post("/signin",async function(req,res){
     }
 })
 
-const { adminAuth } = require('../middlewares/admin');
-
-
-adminRouter.post("/course/create",adminAuth,function (req,res){
-
-})
-adminRouter.put("/course/edit",adminAuth,function (req,res){
-
-})
-adminRouter.delete("/course/delete",adminAuth,function (req,res){
-
-})
+const { courseRouter } = require('./course');
+adminRouter.use("/course",courseRouter);
 
 module.exports = {
     adminRouter : adminRouter
