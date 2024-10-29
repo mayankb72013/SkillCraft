@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router;
 const courseRouter = router();
+const { Course } = require('../db');
 
 courseRouter.post("/viewAll",function (req,res){
     

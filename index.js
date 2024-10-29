@@ -8,9 +8,6 @@ dotenv.config();
 
 const {  UserModel, CourseModel, AdminModel, PurchaseModel } = require('./db');
 
-const jwt = require('jsonwebtoken');
-
-
 const { userRouter } = require('./routes/user');
 const { courseRouter } = require('./routes/course');
 const { adminRouter } = require('./routes/admin');
