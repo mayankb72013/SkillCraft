@@ -46,8 +46,26 @@ courseRouter.post("/purchase", userAuth, async function (req, res) {
         })
     }
 })
+courseRouter.get("/purchases",userAuth,async function (req,res){
+    const userId = req.UserId;
+
+    const purchases = await Purchase.find({
+        userId: userId
+    })
+    if (purchases.length < 1) {
+        res.json({
+            msg: "No courses have been purchased by you"
+        })
+    }
+    else {
+        res.json({
+            courses: purchases
+        })
+    }
+})
 
 const { adminAuth } = require('../middlewares/admin');
+const user = require('./user');
 courseRouter.get("/viewCourses", adminAuth, async function (req, res) {
     const creatorId = req.creatorId;
 
